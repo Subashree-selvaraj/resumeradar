@@ -11,13 +11,12 @@ load_dotenv()
 app = Flask(__name__)
 CORS(app)
 
-# ✅ Gemini API Setup
+
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
-# ✅ Correct Gemini Model Initialization
+
 model = genai.GenerativeModel(model_name="gemini-1.5-pro-latest")
 
 
-# ✅ Extract details
 def extract_info(text):
     email = re.search(r'[\w\.-]+@[\w\.-]+', text)
     phone = re.search(r'\b\d{10}\b', text)
@@ -38,7 +37,7 @@ def extract_info(text):
         "text": text
     }
 
-# ✅ Resume Upload
+
 @app.route("/upload", methods=["POST"])
 def upload_resume():
     if 'resume' not in request.files:
@@ -107,7 +106,7 @@ JOB DESCRIPTION:
         return jsonify(result)
 
     except Exception as e:
-        print("❌ Gemini processing failed:", str(e))
+        print(" Gemini processing failed:", str(e))
         return jsonify({"error": "Gemini processing failed", "details": str(e)}), 500
 
 if __name__ == "__main__":
