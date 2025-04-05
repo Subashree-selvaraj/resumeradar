@@ -14,7 +14,7 @@ CORS(app)
 # ✅ Gemini API Setup
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 # ✅ Correct Gemini Model Initialization
-model = genai.GenerativeModel(model_name="models/gemini-2.5-pro-exp-03-25")
+model = genai.GenerativeModel(model_name="gemini-1.5-pro-latest")
 
 
 # ✅ Extract details
@@ -66,9 +66,9 @@ def ats_using_gemini():
         return jsonify({"error": "Missing resumeText or jobText"}), 400
 
     prompt = f"""
-You are an ATS (Applicant Tracking System) Analyzer AI.
+You are an expert AI resume analyzer.
 
-Given the following RESUME and JOB DESCRIPTION:
+Given the RESUME and JOB DESCRIPTION below:
 ----------------------------
 RESUME:
 {resume_text}
@@ -79,15 +79,17 @@ JOB DESCRIPTION:
 ----------------------------
 
 ✅ TASKS:
-1. Calculate the ATS Match Score (as percentage based on keyword relevance)
-2. Highlight matched skills and relevant keywords
+1. Calculate the ATS Match Score (in percentage based on keyword relevance)
+2. Highlight matched keywords and skills
 3. Give a short summary of the resume
+4. Suggest improvements or modifications to make the resume better match the job description
 
-Format your response as JSON:
+🎯 Return a response in this JSON format:
 {{
   "ats_score": "score in %",
   "matched_keywords": ["keyword1", "keyword2", ...],
-  "summary": "brief summary"
+  "summary": "brief summary of the resume",
+  "recommendations": ["Add more experience about ...", "Include skills like ..."]
 }}
 """
 
